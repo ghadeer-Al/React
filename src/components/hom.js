@@ -1,24 +1,27 @@
-import React, {Component}from "react";
+import React, { Component } from "react";
 //import {Link} from 'react-router-dom';
 
-export class Hom extends Component{
-    render(){
-        
-        return(
-            <div>
-                <header style= {{
-                    backgroundColor: 'mediumblue',
-                    color: '#fff',
-                    padding: "10px"
-                }}>
-                    <h3 className="d-flex justify-content-center m-3">Welcom To Home Page</h3>  
-                    
-                </header>
-                {/* <button>create new </button>  */}
+export class Hom extends Component {
+  render() {
+    return (
+      <div>
+        <header
+          style={{
+            backgroundColor: "SlateBlue",
+            color: "#fff",
+            padding: "10px",
+            textAlign: "center",
+            // fontSize: 35
+          }}
+        >
+          <h3>Welcom To Home Page</h3>
+        </header>
+        {/* <button onClick>create new </button>  */}
 
-             {/* <h3>Welcom To Home Page</h3>     */}
-             </div>
-        )
-    }
+        {/* <h3>Welcom To Home Page</h3>     */}
+        <p style={{fontSize:30}}>This is home page for Dummy project</p>
+      </div>
+    );
+  }
 }
 export default Hom;

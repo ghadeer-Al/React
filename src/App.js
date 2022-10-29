@@ -10,6 +10,7 @@ import{ BrowserRouter, Routes, Route, } from 'react-router-dom'
 //import {Link} from 'react-router-dom';
 import Navigation from './Navigation'
 import AppHeader from './AppHeader';
+import EditUser from './components/edit';
 
 function App (){
   return (
@@ -20,6 +21,7 @@ function App (){
       <Route path ='/hom' element= {<Hom/> } />
       <Route path ='/user' element= {<User/> } />
       <Route path="/AddUser" element= {<addUser/>}/>
+      <Route path="/EditUser" element={<EditUser/>} />
       
      </Routes>
       </BrowserRouter>

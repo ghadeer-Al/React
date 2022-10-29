@@ -1,12 +1,5 @@
 import React, {Component }from "react";
 import { Button } from "react-bootstrap";
-//import React from 'react';
-import Table  from './Table';
-//import './index.css';
-//import './App.css';
-//import axios from 'axios';
-//import { useResolvedPath } from "react-router-dom";
-//const apiUrl = 'https://localhost:7027/api/Users';
 
 export  class User extends Component{
    
@@ -30,11 +23,10 @@ export  class User extends Component{
             }
           
             render(){
-                const{DataisLoaded, user,setData}= this.state;
-                // if (!DataisLoaded)return <div>
-                // <h1> Pleses wait some time.... </h1> </div> ;
+                const{ user,setData}= this.state;
+             
              async function deleteOperation(id){
-                console.log('44444',id);
+                console.log(id);
              let result=await fetch('https://localhost:7027/api/Users/'+id,{
                 method:"Delete"
              });
@@ -53,14 +45,14 @@ export  class User extends Component{
 
                 return(
                     <div>
-                       <h4 align="center" >User List</h4>
+                       <h4 style={{textAlign : 'center', fontSize: 40 }}  >User List</h4>
                       
                <table className="table table-striped" style={{ marginTop: 10}}>
                 <thead>
                     <tr>
-                        <th >UserName</th>
-                        <th>Status</th>
-                        <th>Operations</th>
+                        <th style={{ fontSize:23  }}  >UserName</th>
+                        <th style={{ fontSize:23  }}  >Status</th>
+                        <th style={{ fontSize:23  }}  >Operations</th>
                         
                     </tr>
                 </thead>
@@ -71,7 +63,7 @@ export  class User extends Component{
                         user.map((user)=>(
                             <tr>
                             <td key ={ user.id}>
-                                {user.username}
+                                {user.  username}
                                 {/* Password:{user.password}, */}
                                
                             </td>
@@ -79,7 +71,7 @@ export  class User extends Component{
                             <td>
                                <Button onClick={()=>deleteOperation(user.id)} style={{backgroundColor:'red',
                                color: '#fff',
-                            padding:' 3px', borderRadius: '5px', cursor: 'pointer' 
+                               padding:' 3px'
                             }}  >Delete</Button> 
                             </td>
                             </tr>
@@ -87,9 +79,7 @@ export  class User extends Component{
                             
                         ))
                        }
-                    {/* here */
-                    // <button noClick={postPutEvent}> submit </button>
-                    /* here */}
+                   
                            </table>
                     </div>
                 );

@@ -1,84 +1,119 @@
-import React,{Component} from 'react';
-import {Modal,Button, Row, Col, Form} from 'react-bootstrap';
-import User from './user';
+import React, { Component } from "react";
+import { Modal, Button, Row, Col, Form } from "react-bootstrap";
+import User from "./user";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { editableInputTypes } from "@testing-library/user-event/dist/utils";
+import { useParams } from "react-router-dom";
+import { getSuggestedQuery } from "@testing-library/react";
 
-export class EditUser extends Component{
-    constructor(props){
-        super(props);
-        this.handleSubmit= this.handleSubmit.bind(this);
- 
-    }
-    handleSubmit(event){
-        event.preventDefault();
-        fetch('https://localhost:7027/api/Users'+User,{
-            method:'PUT',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
-            UserId:event.target.UserId.value,
-            UserName:event.target.UserName.value
-            })
-        })
-        .then(res=> res.json())
-        .then((result)=>{
-            alert('Failed');
-        })
+//  class EditUser extends Component{
+export default function EditUser() {
+  const [inputs, setInputs] = useState();
+//   const { id } = useParams();
+  useEffect(() => {
+    getUser();
+  }, []);
+  function getUser() {
+    const addOption = {
+      method: "Get",
+      headers: { "content-Type": "application/json" },
+      // body: JSON.stringify(body),
+    };
 
-    }
-    render(){
-        return(
-            
-            <div className='container'>
-                 <h3>Edit User page</h3>
-               
-                <Modal
-                {...this.props}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered>
-                    <Modal.Header clooseButton>
-                        <Modal.Titel id="contained-modal-title-vcenter">
-                            Edit User
-                        </Modal.Titel>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Row >
-                            <Col sm={6}>
-                                <Form onSubmit={this.handleSubmit}>
-                                    <Form.Group controlId="UserId">
-                                        <Form.Label>User Id</Form.Label>
-                                        <Form.Control type="text" name="UserId" required
-                                        disabled
-                                        defaultValue={this.props.useid}
-                                        placeholder="UserName"/>
-                                    </Form.Group>
-                                    <Form.Group controlId="UserName">
-                                      <Form.Label>UserName</Form.Label>
-                                      <Form.Control type="text" name="UserName" required 
-                                    defaultValue={this.props.usename}
-                                    placeholder="UsertName"/>
-                                </Form.Group>
+    fetch("https://localhost:7027/api/Users", addOption).then((e) => {
+      console.log("then", e);
+    });
+  }
+  const handleChange = (event) => {
+    const userName = event.target.userName;
+    const password = event.target.password;
+    const status = event.target.status;
+    setInputs((password) => ({ ...password, [userName]: password }));
+    setInputs((status) => ({ ...status, [userName]: status }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const addOption = {
+      method: "Post",
+      headers: { "content-Type": "application/json" },
+      // body: JSON.stringify(body),
+    };
 
-                              <Form.Group>
-                               <Button variant="primary" type="submit">
-                                  Update User
-                              </Button>
-                            </Form.Group>
-                                </Form>
-                            </Col>
-
-
-                        </Row>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="danger" onClick={this.props.onHide}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        )
-    }
-
+    fetch("https://localhost:7027/api/Users", addOption).then((e) => {
+      console.log("then", e);
+    });
+  };
+  return (
+    <div>
+      <h1 style={{ textAlign: "center", backgroundColor:'LightGray' }}>Current User Info</h1>
+      <form onSubmit={handleSubmit}>
+        <table cellSpacing="10">
+          <tbody>
+            <tr>
+              <th>
+                <label>User Name</label>
+              </th>
+              <td>
+                <input type="text" userName="userName"></input>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>Password</label>
+              </th>
+              <td>
+                <input type="password" password="password"></input>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>Status</label>
+              </th>
+              <td>
+                <input type="text" status="status"></input>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </form>
+      <div>
+      <h1 style={{ textAlign: "center", backgroundColor:'Violet' }}>New User Info</h1>
+      <form onSubmit={handleSubmit}>
+        <table cellSpacing="10">
+          <tbody>
+            <tr>
+              <th>
+                <label>User Name</label>
+              </th>
+              <td>
+                <input type="text" userName="userName"></input>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>Password</label>
+              </th>
+              <td>
+                <input type="password" password="password"></input>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>Status</label>
+              </th>
+              <td>
+                <input type="text" status="status"></input>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="submit" className="btn btn-primary">
+          Edie User
+        </button>
+      </form>
+    </div>
+    </div>
+  );
 }
-export default EditUser
