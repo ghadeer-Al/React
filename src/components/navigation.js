@@ -19,7 +19,7 @@ const Navigation=()=>{
            
             <a className=" m-2" href ="/AddUser" >Add User</a>
            
-            <a className=" m-2" href ="/Edie" >Edit</a>
+        
             </li>
            
         </ul>

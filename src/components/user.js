@@ -1,91 +1,134 @@
-import React, {Component }from "react";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import {  Button, Collapse } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
 
-export  class User extends Component{
-   
-        constructor(props){
-            super(props);
-            this.state= {user:[],
-            DataisLoaded:false};
-        }
-        
-        componentDidMount(){
-            
-            fetch('https://localhost:7027/api/Users')
-            .then(res =>res.json()) 
-              .then((json)=>{
-                this.setState({
-                  user: json,
-                  DataisLoaded: true
-                });
-              }) 
-                
-            }
-          
-            render(){
-                const{ user,setData}= this.state;
-             
-             async function deleteOperation(id){
-                console.log(id);
-             let result=await fetch('https://localhost:7027/api/Users/'+id,{
-                method:"Delete"
-             });
-             
-            result = await result.json();
-            console.warn(result)
-            getData();
-            }
-            async function getData()
-                {
-                let result = await fetch('https://localhost:7027/api/Users');
-                result = await result.json();
-                setData(result)
-                }
+const User = () => {
+  const [users, setUsers] = useState();
 
+  const navigate = useNavigate();
+    // const refreshPage = () => {
+  //   navigate(0);
+  // };
 
-                return(
-                    <div>
-                       <h4 style={{textAlign : 'center', fontSize: 40 }}  >User List</h4>
-                      
-               <table className="table table-striped" style={{ marginTop: 10}}>
-                <thead>
-                    <tr>
-                        <th style={{ fontSize:23  }}  >UserName</th>
-                        <th style={{ fontSize:23  }}  >Status</th>
-                        <th style={{ fontSize:23  }}  >Operations</th>
-                        
-                    </tr>
-                </thead>
-              
-               
-                       {
-                        
-                        user.map((user)=>(
-                            <tr>
-                            <td key ={ user.id}>
-                                {user.  username}
-                                {/* Password:{user.password}, */}
-                               
-                            </td>
-                            <td> {user.status}</td>
-                            <td>
-                               <Button onClick={()=>deleteOperation(user.id)} style={{backgroundColor:'red',
-                               color: '#fff',
-                               padding:' 3px'
-                            }}  >Delete</Button> 
-                            </td>
-                            </tr>
-                            
-                            
-                        ))
-                       }
-                   
-                           </table>
-                    </div>
-                );
-             }
-            }
+  const navigateToUser = () => {
+    navigate("/User");
+  };
+
  
-        
-        export default User;
- 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const data = await fetch("https://localhost:7027/api/Users");
+
+      const jsonData = await data.json();
+      setUsers(jsonData);
+    };
+
+    fetchUsers();
+  }, []);
+
+  const deleteOperation = (id) => {
+    fetch("https://localhost:7027/api/Users/" + id, {
+      method: "Delete",
+    });
+    navigateToUser();
+    // refreshPage();
+    // getData();
+  };
+
+  // const getData = () => {
+  //   let result = fetch("https://localhost:7027/api/Users");
+  //   let res = result.json()
+
+  //   // .then (users=>{
+  //   //   const username=[], password=[],status=[];
+  //   //   users.result.forEash(users=>{
+  //   //     username.push(users.username)
+  //   //     password.push(users.password)
+  //   //     status.push(users.status)
+  //   //   });
+  //   //   this.setState({
+
+  //   //   })
+  //   // })
+  // setUsers(res);
+  //   };
+  // useEffect(()=>{
+  //   let result= getData()
+  //   setUsers(result)
+  // },[])
+
+  const clickHandle = () => {
+    alertify.alert("Delete", "Delete User!!", function () {
+      alertify.message("OK");
+    window.location.reload();
+
+    });
+  };
+  return (
+    <div>
+      <h4 style={{ textAlign: "center", fontSize: 40 }}>User List</h4>
+      <div
+        style={{
+          justifyContent: "center",
+          display: "flex",
+          textAlign: "center",
+        }}
+      >
+        <table
+          className="table table-striped center"
+          style={{ borderCollapse: Collapse, gap: "13px" }}
+        >
+          <thead>
+            <tr>
+              <th style={{ fontSize: 23 }}>UserName</th>
+              <th style={{ fontSize: 23 }}>Status</th>
+              <th style={{ fontSize: 23 }}>Operations</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users?.map((user) => {
+              return (
+                <tr key={user.id}>
+                  <td>{user.username}</td>
+                  <td> {user.status}</td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        clickHandle();
+                        deleteOperation(user.id);
+                      }}
+                      style={{
+                        backgroundColor: "red",
+                        color: "#fff",
+                        padding: " 3px",
+                      }}
+                    >
+                      Delete
+                    </Button>
+
+                    <a
+                      style={{
+                        backgroundColor: "green",
+                        color: "#fff",
+                        padding: "4px",
+                        margin: "15px",
+                        borderRadius: "5px",
+                      }}
+                      href={`/Edit/${user.id}`}
+                    >
+                      Edit
+                    </a>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default User;

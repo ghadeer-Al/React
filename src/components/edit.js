@@ -1,119 +1,125 @@
 import React, { Component } from "react";
-import { Modal, Button, Row, Col, Form } from "react-bootstrap";
-import User from "./user";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 import { useParams } from "react-router-dom";
-import { getSuggestedQuery } from "@testing-library/react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
+import User from "./user";
 
-//  class EditUser extends Component{
-export default function EditUser() {
-  const [inputs, setInputs] = useState();
-//   const { id } = useParams();
+const EditUser = () => {
+  const { id } = useParams();
+
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [status, setStatus] = useState("");
+  const [user, setUser] = useState({ username: "", password: "", status: "" });
+
   useEffect(() => {
-    getUser();
+    const editUserId = async () => {
+      const data = await fetch("https://localhost:7027/api/Users/" + id);
+      const res = await data.json();
+      setUser(await res);
+    };
+    editUserId();
   }, []);
-  function getUser() {
-    const addOption = {
-      method: "Get",
-      headers: { "content-Type": "application/json" },
-      // body: JSON.stringify(body),
-    };
 
-    fetch("https://localhost:7027/api/Users", addOption).then((e) => {
-      console.log("then", e);
-    });
-  }
-  const handleChange = (event) => {
-    const userName = event.target.userName;
-    const password = event.target.password;
-    const status = event.target.status;
-    setInputs((password) => ({ ...password, [userName]: password }));
-    setInputs((status) => ({ ...status, [userName]: status }));
+  const navigate = useNavigate();
+  const navigateToUser = () => {
+    navigate("/User");
   };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const addOption = {
-      method: "Post",
-      headers: { "content-Type": "application/json" },
-      // body: JSON.stringify(body),
-    };
 
-    fetch("https://localhost:7027/api/Users", addOption).then((e) => {
-      console.log("then", e);
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleStatus = (event) => {
+    setStatus(event.target.value);
+  };
+
+  const saveData = () => {
+    console.log({ id });
+
+    EditOperation();
+  };
+
+  const EditOperation = () => {
+    axios.put("https://localhost:7027/api/Users/" + id, {
+      username,
+      password,
+      status,
     });
+  };
+
+  const handleEdit = (e) => {
+    setUser({ user, [e.target.name]: e.target.value });
+    setUserName(e.target.value);
+  };
+
+  const clickHandle = () => {
+    alertify.alert("Edit", "User has been modified", function () {
+      alertify.message("OK");
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    navigateToUser();
   };
   return (
     <div>
-      <h1 style={{ textAlign: "center", backgroundColor:'LightGray' }}>Current User Info</h1>
-      <form onSubmit={handleSubmit}>
-        <table cellSpacing="10">
-          <tbody>
-            <tr>
-              <th>
-                <label>User Name</label>
-              </th>
-              <td>
-                <input type="text" userName="userName"></input>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label>Password</label>
-              </th>
-              <td>
-                <input type="password" password="password"></input>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label>Status</label>
-              </th>
-              <td>
-                <input type="text" status="status"></input>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        
-      </form>
-      <div>
-      <h1 style={{ textAlign: "center", backgroundColor:'Violet' }}>New User Info</h1>
-      <form onSubmit={handleSubmit}>
-        <table cellSpacing="10">
-          <tbody>
-            <tr>
-              <th>
-                <label>User Name</label>
-              </th>
-              <td>
-                <input type="text" userName="userName"></input>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label>Password</label>
-              </th>
-              <td>
-                <input type="password" password="password"></input>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label>Status</label>
-              </th>
-              <td>
-                <input type="text" status="status"></input>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button type="submit" className="btn btn-primary">
-          Edie User
+      <h3 style={{ textAlign: "center", fontSize: 35 }}>Edit User page</h3>
+
+      <form
+        onSubmit={handleSubmit}
+        style={{ textAlign: "center", fontSize: 35 }}
+      >
+        <div className="form-group" style={{ fontSize: 19 }}>
+          <label for="text">User Name</label>
+          <input
+            type="text"
+            className="form-control"
+            value={user.username}
+            username="username"
+            onChange={(e) => handleEdit(e)}
+            // onChange={(event) => handleUserName(event)}
+          />
+        </div>
+        <div className="form-group" style={{ fontSize: 19 }}>
+          <label for="text">Status </label>
+          <input
+            type="text"
+            className="form-control"
+            value={user.status}
+            status="status"
+            onChange={(event) => handleStatus(event)}
+          />
+        </div>
+
+        <div className="form-group" style={{ fontSize: 19 }}>
+          <label for="password">Password </label>
+          <input
+            type="password"
+            className="form-control"
+            value={user.password}
+            password="password"
+            onChange={(event) => handlePassword(event)}
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={() => {
+            saveData({ id, username, password, status });
+            clickHandle();
+          }}
+        >
+          Edit User
         </button>
       </form>
     </div>
-    </div>
   );
-}
+};
+
+export default EditUser;
