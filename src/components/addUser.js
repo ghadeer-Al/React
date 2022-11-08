@@ -53,14 +53,14 @@ const AddUser = () => {
   };
   return (
     <div>
-      <h3 style={{ textAlign: "center", fontSize: 35 }}>Add User page</h3>
+      <h3 style={{ textAlign: "center", fontSize: 40, height:"5vh"}}>Add User page</h3>
       <div
         className=" text-center "
         style={{
           justifyContent: "center",
           display: "flex",
           alignItems: "center",
-          height: "50vh",
+          height: "40vh",
         }}
       >
         <form
@@ -81,13 +81,18 @@ const AddUser = () => {
           <div className="form-group" style={{ fontSize: 19 }}>
             <label for="text">Status</label>
             <input
+            //  type="checkbox"
               type="text"
+             
               className="form-control"
               placeholder="Status"
               value={status}
               onChange={(event) => handleStatus(event)}
             />
+    
+          
           </div>
+          
 
           <div className="form-group" style={{ fontSize: 19 }}>
             <label for="password">Password</label>

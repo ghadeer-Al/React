@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
-import {  Button, Collapse } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Button, Collapse } from "react-bootstrap";
+import { json, useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
+import Toastify from "toastify-js";
 
 const User = () => {
   const [users, setUsers] = useState();
+  const [error, setError] = useState();
 
-  const navigate = useNavigate();
-    // const refreshPage = () => {
-  //   navigate(0);
-  // };
-
-  const navigateToUser = () => {
-    navigate("/User");
-  };
-
- 
   useEffect(() => {
     const fetchUsers = async () => {
       const data = await fetch("https://localhost:7027/api/Users");
@@ -29,46 +21,56 @@ const User = () => {
   }, []);
 
   const deleteOperation = (id) => {
+    // alertify.confirm(message, onok, oncancel);
+    // alertify.confirm('Confirm Title', 'Confirm Message', function(){ alertify.success('Ok') }
+    //             , function(){ alertify.error('Cancel')
+    //             return false;
+              //    alertify.confirm('a callback will be invoked on ok.')
+              //  .set('onok', function(closeEvent){ alertify.success('Ok');} ); 
+
+              //   alertify.confirm('a callback will be invoked on cancel.')
+              //   .set('oncancel', function(closeEvent){ alertify.error('Cancel');} ); 
+              // });
+  
     fetch("https://localhost:7027/api/Users/" + id, {
       method: "Delete",
-    });
-    navigateToUser();
-    // refreshPage();
-    // getData();
-  };
-
-  // const getData = () => {
-  //   let result = fetch("https://localhost:7027/api/Users");
-  //   let res = result.json()
-
-  //   // .then (users=>{
-  //   //   const username=[], password=[],status=[];
-  //   //   users.result.forEash(users=>{
-  //   //     username.push(users.username)
-  //   //     password.push(users.password)
-  //   //     status.push(users.status)
-  //   //   });
-  //   //   this.setState({
-
-  //   //   })
-  //   // })
-  // setUsers(res);
-  //   };
-  // useEffect(()=>{
-  //   let result= getData()
-  //   setUsers(result)
-  // },[])
-
-  const clickHandle = () => {
-    alertify.alert("Delete", "Delete User!!", function () {
+    })
+      .then(async (response) => {
+       var result = await response.text();
+        if (response.status == 200) {
+            alertify.alert("Delete", "Delete User!!", function () {
       alertify.message("OK");
-    window.location.reload();
+      window.location.reload();
+    console.log("successful")
+     
+    });
 
+        
+        
+        } else {
+          throw result;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        //alertify. 
+      });
+    alertify.alert("Error", "faild", function () {
+      alertify.message("OK");
     });
   };
+
+  // const clickHandle = () => {
+  //   alertify.alert("Delete", "Delete User!!", function () {
+  //     alertify.message("OK");
+  //     window.location.reload();
+  //   });
+  // };
+
   return (
     <div>
       <h4 style={{ textAlign: "center", fontSize: 40 }}>User List</h4>
+
       <div
         style={{
           justifyContent: "center",
@@ -96,7 +98,7 @@ const User = () => {
                   <td>
                     <Button
                       onClick={() => {
-                        clickHandle();
+                        // clickHandle();
                         deleteOperation(user.id);
                       }}
                       style={{
