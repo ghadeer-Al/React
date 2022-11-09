@@ -21,43 +21,30 @@ const User = () => {
   }, []);
 
   const deleteOperation = (id) => {
-    // alertify.confirm(message, onok, oncancel);
-    // alertify.confirm('Confirm Title', 'Confirm Message', function(){ alertify.success('Ok') }
-    //             , function(){ alertify.error('Cancel')
-    //             return false;
-              //    alertify.confirm('a callback will be invoked on ok.')
-              //  .set('onok', function(closeEvent){ alertify.success('Ok');} ); 
-
-              //   alertify.confirm('a callback will be invoked on cancel.')
-              //   .set('oncancel', function(closeEvent){ alertify.error('Cancel');} ); 
-              // });
-  
     fetch("https://localhost:7027/api/Users/" + id, {
       method: "Delete",
     })
       .then(async (response) => {
-       var result = await response.text();
+        var result = await response.text();
         if (response.status == 200) {
-            alertify.alert("Delete", "Delete User!!", function () {
-      alertify.message("OK");
-      window.location.reload();
-    console.log("successful")
-     
-    });
-
-        
-        
+          alertify.alert("Delete", "Delete User!!", function () {
+            alertify.message("OK");
+            window.location.reload();
+            console.log("successful");
+          });
         } else {
           throw result;
         }
       })
       .catch((err) => {
         console.log(err);
-        //alertify. 
+        
       });
+     
     alertify.alert("Error", "faild", function () {
       alertify.message("OK");
     });
+   
   };
 
   // const clickHandle = () => {
@@ -65,6 +52,26 @@ const User = () => {
   //     alertify.message("OK");
   //     window.location.reload();
   //   });
+  // };
+
+  // const alert = () => {
+  //   alertify.confirm(
+  //     "Delete",
+  //     "Delete User!!",
+  //     function (e) {
+  //       if (e) {
+  //         ().submit();
+  //         alertify.success("Ok");
+  //         return true;
+  //       } else {
+  //         alertify.error("Cancel");
+  //         return false;
+  //       }
+  //     },
+  //     function () {
+  //       alertify.error("Cancel");
+  //     }
+  //   );
   // };
 
   return (
@@ -98,8 +105,10 @@ const User = () => {
                   <td>
                     <Button
                       onClick={() => {
+                        //  alert();
+                     
                         // clickHandle();
-                        deleteOperation(user.id);
+                         deleteOperation(user.id);
                       }}
                       style={{
                         backgroundColor: "red",

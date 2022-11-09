@@ -42,8 +42,8 @@ const AddUser = () => {
     fetch("https://localhost:7027/api/Users", addOption).then((e) => {
       console.log("then", e);
     });
-
-    navigateToUser();
+    
+     navigateToUser();
     // refreshPage();
   };
   const clickHandle = () => {
