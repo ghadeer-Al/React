@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
+import React from 'react';
+// import AddDialog from "./addDialog";
 
 const AddUser = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [status, setStatus] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -17,19 +19,19 @@ const AddUser = () => {
   //   navigate(0);
   // };
 
-  const handleUserName = (event) => {
+  const handleUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
 
-  const handlePassword = (event) => {
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const handleStatus = (event) => {
+  const handleStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStatus(event.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const body = { username, password, status };
 
@@ -49,6 +51,7 @@ const AddUser = () => {
   const clickHandle = () => {
     alertify.alert("Add ","Add User!", function () {
       alertify.message("OK");
+      window.location.reload();
     });
   };
   return (
@@ -63,25 +66,26 @@ const AddUser = () => {
           height: "40vh",
         }}
       >
+        
         <form
           onSubmit={handleSubmit}
           style={{ textAlign: "center", fontSize: 35 }}
         >
           <div className="form-group" style={{ fontSize: 19 }}>
-            <label for="text">User name</label>
+            <label >User name</label>
             <input
               type="text"
               className="form-control"
-              required="required"
+              // required="required"
               placeholder="User Name"
               value={username}
               onChange={(event) => handleUserName(event)}
             />
           </div>
-          <div className="form-group" style={{ fontSize: 19 }}>
-            <label for="text">Status</label>
+          <div /*className="form-group"*/ style={{ fontSize: 19 }}>
+            <label className="switch">Status</label>
             <input
-            //  type="checkbox"
+           
               type="text"
              
               className="form-control"
@@ -95,7 +99,7 @@ const AddUser = () => {
           
 
           <div className="form-group" style={{ fontSize: 19 }}>
-            <label for="password">Password</label>
+            <label >Password</label>
             <input
               type="password"
               className="form-control"
@@ -104,7 +108,7 @@ const AddUser = () => {
               onChange={(event) => handlePassword(event)}
             />
           </div>
-
+          
           <button
             type="submit"
             className="btn btn-primary"
@@ -114,6 +118,7 @@ const AddUser = () => {
           >
             Add User
           </button>
+          {/* <AddDialog/> */}
         </form>
       </div>
     </div>

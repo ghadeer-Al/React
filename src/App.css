@@ -16,13 +16,13 @@ body{
 .List{
   font-size: 2rem;
 }
-.delete{
+/* .delete{
   background-color: red;
   color: #fff;
   padding: 3px;
   border-radius: 5px;
   cursor: pointer;
-}
+} */
 
 
 .nav ul{
