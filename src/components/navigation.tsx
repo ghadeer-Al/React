@@ -39,10 +39,11 @@ const Navigation = () => {
             <a className=" m-2" href="/Hom">
               Home
             </a>
+          
 
-            <a className=" m-2" href="/User">
+            {/* <a className=" m-2" href="/User">
               User
-            </a>
+            </a> */}
 
             <a className=" m-2" href="/AddUser">
               Add User
@@ -52,17 +53,17 @@ const Navigation = () => {
             {/* <AddDialog /> */}
           </li>
         </ul>
-         {/* <div style={{ display: "flex", justifyContent: "center" }}> */}
-          {/* <ul className="nav navbar-nav navbar-right ">
+        {/* <div style={{ display: "flex", justifyContent: "center" }}> */}
+        {/* <ul className="nav navbar-nav navbar-right ">
             <Search />
           </ul>  */}
-          {/* <ul className="nav navbar-nav navbar-right ">
+        {/* <ul className="nav navbar-nav navbar-right ">
             <AddDialog />
           </ul> */}
         {/* </div> */}
         <ul className="nav navbar-nav navbar-right ">
-            <AddDialog />
-          </ul>
+          <AddDialog />
+        </ul>
       </nav>
     </div>
   );

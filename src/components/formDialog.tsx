@@ -62,11 +62,14 @@ const FormDialog = ({ id, isOpen }: any) => {
   };
 
   const EditOperation = () => {
+    
     axios.put("https://localhost:7027/api/Users/" + id, {
       username,
       password,
       status: checked,
     });
+ 
+    
   };
 
 

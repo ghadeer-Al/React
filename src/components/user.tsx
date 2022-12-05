@@ -14,6 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import alertify from "alertifyjs";
 // import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from "react-router-dom";
 
 import { Table } from "react-bootstrap";
 
@@ -22,6 +23,11 @@ const User = () => {
 
   const reversed = [...users].reverse();
   const [, setChecked] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+  const navigateToHom = () => {
+    navigate("/Hom");
+  };
 
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -77,7 +83,6 @@ const User = () => {
     fetchUsers();
   }, []);
 
-
   const handlerSearch = async (searchText: string) => {
     axios
       .post(`https://localhost:7027/api/Users/Search?search=${searchText}`)
@@ -87,6 +92,19 @@ const User = () => {
       .catch((error) => {
         console.log("error", error);
       });
+  };
+
+  const handleClose = () => {
+    alertify.confirm("close","LogOut!!").set({
+      onok: function () {
+        navigateToHom();
+      },
+      oncancel: function () {},
+      labels: {
+        ok: "logOut!",
+        cancel: "Cancle",
+      },
+    });
   };
 
   return (
@@ -136,7 +154,6 @@ const User = () => {
 
                       <FormControl>
                         <Switch
-
                           checked={user.status}
                           // checked={checked}
                           onChange={handleChecked}
@@ -177,8 +194,17 @@ const User = () => {
             })}
           </tbody>
         </Table>
+
         {/* </div> */}
       </div>
+      <button
+        onClick={() => {
+          handleClose();
+          // navigateToHom();
+        }}
+      >
+        Log out
+      </button>
     </div>
   );
 };
