@@ -49,3 +49,8 @@ padding: 025rem;
   background-color:#777 ;
   
 }
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  opacity: 1;
+  -webkit-text-fill-color: rgb(0 0 0);
+  
+}

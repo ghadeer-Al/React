@@ -4,14 +4,15 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-    const navigate = useNavigate();
-    const navigateToUser = () => {
-      navigate("/User");
-    };
+  const navigate = useNavigate();
+  const navigateToUser = () => {
+    navigate("/User");
+  };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -20,9 +21,6 @@ const Login = () => {
   const Login = () => {
     axios
       .post("https://localhost:7027/api/Users/Login", {
-        headers: {
-          "Content-Type": "application/json",
-        },
         username: username,
         password: password,
       })
@@ -54,6 +52,8 @@ const Login = () => {
           <Form.Label>UserName</Form.Label>
 
           <Form.Control
+            required
+            pattern=" /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/"
             autoFocus
             type="text"
             value={username}
@@ -65,6 +65,8 @@ const Login = () => {
           <Form.Label>Password</Form.Label>
 
           <Form.Control
+            required
+            pattern="/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

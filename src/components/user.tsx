@@ -13,7 +13,7 @@ import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import alertify from "alertifyjs";
-// import SearchIcon from '@mui/icons-material/Search';
+
 import { useNavigate } from "react-router-dom";
 
 import { Table } from "react-bootstrap";
@@ -88,14 +88,16 @@ const User = () => {
       .post(`https://localhost:7027/api/Users/Search?search=${searchText}`)
       .then((response) => {
         setUsers(response.data);
-      })
-      .catch((error) => {
-        console.log("error", error);
       });
+
+    // .catch((error) => {
+
+    // console.log("error", error);
+    // });
   };
 
   const handleClose = () => {
-    alertify.confirm("close","LogOut!!").set({
+    alertify.confirm("close", "LogOut!!").set({
       onok: function () {
         navigateToHom();
       },
@@ -143,41 +145,45 @@ const User = () => {
           <tbody>
             {/* users?.map((user) */}
 
-            {reversed.map((user) => {
-              return (
-                <tr key={user.id} onDoubleClick={handleDoubleClick}>
-                  <td>{user.username}</td>
-                  {/* <td> {user.status}</td> */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <td>
-                      {user.status ? "Active" : "Deactive"}
-
-                      <FormControl>
-                        <Switch
-                          checked={user.status}
-                          // checked={checked}
-                          onChange={handleChecked}
-                        />
-                      </FormControl>
-                    </td>
-                  </div>
-
-                  <td>
+            {reversed.length > 0 ? (
+              reversed.map((user) => {
+                return (
+                  <tr key={user.id} onDoubleClick={handleDoubleClick}>
+                    {/* // style={{cursor:"pointer"}} */}
+                    <td>{user.username}</td>
+                    {/* <td> {user.status}</td> */}
                     <div style={{ display: "flex", justifyContent: "center" }}>
-                      <Button
-                        onClick={() => {
-                          deleteOperation(user.id);
-                        }}
-                        style={{
-                          padding: " 3px",
-                        }}
-                      >
-                        <DeleteIcon fontSize="medium" />
-                      </Button>
-                      <FormDialog open={true} id={user.id} />
-                      <DoubleClick open={true} id={user.id} />
+                      <td>
+                        {user.status ? "Active" : "Deactive"}
 
-                      {/* <a
+                        <FormControl>
+                          <Switch
+                            checked={user.status}
+                            // checked={checked}
+                            onChange={handleChecked}
+                          />
+                        </FormControl>
+                      </td>
+                    </div>
+
+                    <td>
+                      <div
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <Button
+                          onClick={() => {
+                            deleteOperation(user.id);
+                          }}
+                          style={{
+                            padding: " 3px",
+                          }}
+                        >
+                          <DeleteIcon fontSize="medium" />
+                        </Button>
+                        <FormDialog open={true} id={user.id} />
+                        <DoubleClick open={true} id={user.id} />
+
+                        {/* <a
                       style={{
                         padding: "4px",
                         margin: "15px",
@@ -187,11 +193,14 @@ const User = () => {
                     >
                      edit
                     </a> */}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <div>No Data avaliable</div>
+            )}
           </tbody>
         </Table>
 
@@ -200,7 +209,6 @@ const User = () => {
       <button
         onClick={() => {
           handleClose();
-          // navigateToHom();
         }}
       >
         Log out

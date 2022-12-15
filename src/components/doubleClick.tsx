@@ -36,8 +36,6 @@ const DoubleClick = ({ id, isOpen }: any) => {
     setOpen(isOpen);
   }, [isOpen]);
 
-
-
   return (
     <div>
       <Button onDoubleClick={handleDoubleClick}>
@@ -46,8 +44,7 @@ const DoubleClick = ({ id, isOpen }: any) => {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>User Information</DialogTitle>
-        <DialogContent dividers >
-      
+        <DialogContent dividers>
           <TextField
             label="User Id"
             fullWidth
@@ -64,7 +61,6 @@ const DoubleClick = ({ id, isOpen }: any) => {
             variant="standard"
             InputProps={{ disableUnderline: true }}
             disabled={true}
-           
           />
           <TextField
             margin="dense"
@@ -85,7 +81,6 @@ const DoubleClick = ({ id, isOpen }: any) => {
             variant="standard"
             disabled={true}
           />
-       
         </DialogContent>
         <DialogActions></DialogActions>
       </Dialog>

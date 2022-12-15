@@ -62,16 +62,12 @@ const FormDialog = ({ id, isOpen }: any) => {
   };
 
   const EditOperation = () => {
-    
     axios.put("https://localhost:7027/api/Users/" + id, {
       username,
       password,
       status: checked,
     });
- 
-    
   };
-
 
   const handleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ user, [e.target.name]: e.target.value });
@@ -89,16 +85,9 @@ const FormDialog = ({ id, isOpen }: any) => {
   };
 
   return (
-
-
     <div>
- 
-      
-      <Button  
-  
-      onClick={handleClickOpen}
-    >
-        <EditIcon />
+      <Button onClick={handleClickOpen}>
+        <EditIcon />  
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
@@ -142,11 +131,9 @@ const FormDialog = ({ id, isOpen }: any) => {
                 <FormHelperText>Active</FormHelperText>
               </Box>
               <Switch
-               
-            //  checked={user?.status}
+                //  checked={user?.status}
                 checked={checked}
                 onChange={(event) => setChecked(event.target.checked)}
-               
               />
             </FormControl>
           </DialogContent>
@@ -166,7 +153,6 @@ const FormDialog = ({ id, isOpen }: any) => {
                 color="error"
                 onClick={() => {
                   handleClose();
-              
                 }}
               >
                 Cancel
